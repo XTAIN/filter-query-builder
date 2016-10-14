@@ -1,0 +1,25 @@
+{
+  "name": "xtain/filter-query-builder",
+  "license": "MIT",
+  "type": "package",
+  "description": "Filter query builder",
+  "authors": [
+    {
+      "name": "Maximilian Ruta",
+      "email": "mr@xtain.net"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3"
+  },
+  "suggest": {},
+  "autoload": {
+    "psr-4": { "XTAIN\\FilterQueryBuilder\\": "src/" }
+  },
+  "minimum-stability": "dev",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
