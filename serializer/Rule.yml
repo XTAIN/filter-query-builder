@@ -18,3 +18,4 @@ XTAIN\FilterQueryBuilder\Rule:
             type: string
         value:
             type: XTAIN\FilterQueryBuilder\Rule\Value
+            inline: true
