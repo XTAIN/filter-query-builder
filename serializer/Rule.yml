@@ -1,0 +1,20 @@
+XTAIN\FilterQueryBuilder\Rule:
+    xml_root_name: rule
+    properties:
+        id:
+            type: string
+            xml_attribute: true
+        rules:
+            type: array<XTAIN\FilterQueryBuilder\Rule>
+        condition:
+            type: string
+        field:
+            type: string
+        type:
+            type: string
+        input:
+            type: string
+        operator:
+            type: string
+        value:
+            type: XTAIN\FilterQueryBuilder\Rule\Value

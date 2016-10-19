@@ -1,0 +1,12 @@
+XTAIN\FilterQueryBuilder\Rule\Value:
+    xml_root_name: value
+    properties:
+        value:
+            exclude: true
+    handler_callbacks:
+        serialization:
+            xml: serializeToXml
+            json: serializeToJson
+        deserialization:
+            xml: deserializeFromXml
+            json: deserializeFromJson
