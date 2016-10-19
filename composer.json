@@ -14,7 +14,8 @@
   },
   "suggest": {},
   "autoload": {
-    "psr-4": { "XTAIN\\FilterQueryBuilder\\": "src/" }
+    "psr-4": { "XTAIN\\FilterQueryBuilder\\": "src/" },
+    "files": [ "bootstrap.php" ]
   },
   "minimum-stability": "dev",
   "extra": {
