@@ -3,7 +3,9 @@
 namespace XTAIN\FilterQueryBuilder;
 
 use Doctrine\ORM\QueryBuilder;
+use XTAIN\FilterQueryBuilder\Expr\ConjunctionFactoryInterface;
 use XTAIN\FilterQueryBuilder\Expr\ConjunctionInterface;
+use XTAIN\FilterQueryBuilder\Expr\ExpressionFactoryInterface;
 use XTAIN\FilterQueryBuilder\Expr\ExpressionInterface;
 
 class Builder implements BuilderInterface
@@ -14,73 +16,39 @@ class Builder implements BuilderInterface
     protected $builder;
 
     /**
-     * @var string[]
+     * @var ExpressionFactoryInterface[]
      */
-    protected $expressions;
+    protected $expressionFactories;
 
     /**
-     * @var string[]
+     * @var ConjunctionFactoryInterface[]
      */
-    protected $conditions;
+    protected $conjunctionFactories;
 
     /**
      * Builder constructor.
      *
      * @param QueryBuilder $builder
-     * @param array        $expressions
-     * @param array        $conditions
+     * @param array        $expressionFactories
+     * @param array        $conjunctionFactories
      */
     public function __construct(
         QueryBuilder $builder,
-        array $expressions,
-        array $conditions
+        array $expressionFactories,
+        array $conjunctionFactories
     ) {
-        $this->expressions = $expressions;
-        $this->conditions = $conditions;
+        $this->builder = $builder;
+        $this->expressionFactories = $expressionFactories;
+        $this->conjunctionFactories = $conjunctionFactories;
     }
 
     /**
-     * @param Rule $rule
+     * @param RuleInterface $rule
      *
      * @return void
      */
-    public function apply(Rule $rule)
+    public function apply(RuleInterface $rule)
     {
-        $query = json_decode('{
-          "condition": "AND",
-          "rules": [
-            {
-              "id": "price",
-              "field": "price",
-              "type": "double",
-              "input": "text",
-              "operator": "less",
-              "value": "10.25"
-            },
-            {
-              "condition": "OR",
-              "rules": [
-                {
-                  "id": "category",
-                  "field": "category",
-                  "type": "integer",
-                  "input": "select",
-                  "operator": "equal",
-                  "value": "2"
-                },
-                {
-                  "id": "category",
-                  "field": "category",
-                  "type": "integer",
-                  "input": "select",
-                  "operator": "equal",
-                  "value": "1"
-                }
-              ]
-            }
-          ]
-        }');
-
         // This can happen if the querybuilder had no rules...
         if (!$this->isNested($rule)) {
             return null;
@@ -142,45 +110,45 @@ class Builder implements BuilderInterface
      * @param string $queryCondition
      *
      * @return ConjunctionInterface
-     * @throws UnsupportedExpressionException
+     * @throws UnsupportedConjunctionException
      */
     protected function createConjunction($queryCondition)
     {
-        foreach ($this->conditions as $condition) {
-            if (call_user_func(array($condition, 'supports'), $queryCondition)) {
-                return new $condition($this);
+        foreach ($this->conjunctionFactories as $conjunction) {
+            try {
+                return $conjunction->createSupportingConjunction($this, $queryCondition);
+            } catch (UnsupportedConjunctionException $e) {
+                continue;
             }
         }
 
-        throw new UnsupportedExpressionException(
+        throw new UnsupportedConjunctionException(
             sprintf(
-                'Cannot find condition containing %s',
+                'Cannot find conjunction supporting %s',
                 $queryCondition
             )
         );
     }
 
-    /*
-     * @param QueryBuilder $builder
-     * @param string $placeholder
-     * @param RuleInterface $rule
-     */
     /**
      * @param RuleInterface $rule
      *
      * @return ExpressionInterface
+     * @throws UnsupportedExpressionException
      */
     protected function createExpression(RuleInterface $rule)
     {
-        foreach ($this->expressions as $expression) {
-            if (call_user_func(array($expression, 'supports'), $rule)) {
-                return new $expression($this, $rule);
+        foreach ($this->expressionFactories as $expression) {
+            try {
+                return $expression->createSupportingExpression($this, $rule);
+            } catch (UnsupportedExpressionException $e) {
+                continue;
             }
         }
 
         throw new UnsupportedExpressionException(
             sprintf(
-                'Cannot find expression for rule %s',
+                'Cannot find expression supporting %s',
                 $rule
             )
         );
@@ -201,7 +169,7 @@ class Builder implements BuilderInterface
      */
     public function createPlaceholder($prefix)
     {
-        return uniqid($prefix);
+        return uniqid(preg_replace('/[^a-z]+/', '_', $prefix));
     }
 
     /**

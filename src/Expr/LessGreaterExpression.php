@@ -21,25 +21,25 @@ class LessGreaterExpression extends AbstractExpression implements ExpressionInte
             case 'less':
                 $expr = $this->builder->getQueryBuilder()->expr()->lt(
                     $this->rule->getField(),
-                    $placeholder
+                    ':' . $placeholder
                 );
                 break;
             case 'less_or_equal':
                 $expr = $this->builder->getQueryBuilder()->expr()->lte(
                     $this->rule->getField(),
-                    $placeholder
+                    ':' . $placeholder
                 );
                 break;
             case 'greater':
                 $expr = $this->builder->getQueryBuilder()->expr()->gt(
                     $this->rule->getField(),
-                    $placeholder
+                    ':' . $placeholder
                 );
                 break;
             case 'greater_or_equal':
                 $expr = $this->builder->getQueryBuilder()->expr()->gte(
                     $this->rule->getField(),
-                    $placeholder
+                    ':' . $placeholder
                 );
                 break;
             default:

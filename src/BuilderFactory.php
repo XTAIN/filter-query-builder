@@ -4,31 +4,33 @@ namespace XTAIN\FilterQueryBuilder;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use XTAIN\FilterQueryBuilder\Expr\ConjunctionFactoryInterface;
+use XTAIN\FilterQueryBuilder\Expr\ExpressionFactoryInterface;
 
-class BuilderFactory
+class BuilderFactory implements BuilderFactoryInterface
 {
     /**
-     * @var string[]
+     * @var ExpressionFactoryInterface[]
      */
     protected $expressions;
 
     /**
-     * @var string[]
+     * @var ConjunctionFactoryInterface[]
      */
-    protected $conditions;
+    protected $conjunctions;
 
     /**
      * Builder constructor.
      *
      * @param array $expressions
-     * @param array $conditions
+     * @param array $conjunctions
      */
     public function __construct(
         array $expressions,
-        array $conditions
+        array $conjunctions
     ) {
         $this->expressions = $expressions;
-        $this->conditions = $conditions;
+        $this->conjunctions = $conjunctions;
     }
 
     /**
@@ -41,7 +43,7 @@ class BuilderFactory
         return new Builder(
             $queryBuilder,
             $this->expressions,
-            $this->conditions
+            $this->conjunctions
         );
     }
 }

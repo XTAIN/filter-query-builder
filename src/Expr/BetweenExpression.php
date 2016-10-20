@@ -23,8 +23,8 @@ class BetweenExpression extends AbstractExpression implements ExpressionInterfac
 
         $expr = $this->builder->getQueryBuilder()->expr()->between(
             $this->rule->getField(),
-            $placeholderA,
-            $placeholderB
+            ':' . $placeholderA,
+            ':' . $placeholderB
         );
 
         if ($this->rule->getOperator() == 'not_between') {

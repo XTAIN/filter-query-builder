@@ -21,13 +21,13 @@ class EqualExpression extends AbstractExpression implements ExpressionInterface
             case 'equal':
                 $expr = $this->builder->getQueryBuilder()->expr()->eq(
                     $this->rule->getField(),
-                    $placeholder
+                    ':' . $placeholder
                 );
                 break;
             case 'not_equal':
                 $expr = $this->builder->getQueryBuilder()->expr()->neq(
                     $this->rule->getField(),
-                    $placeholder
+                    ':' . $placeholder
                 );
                 break;
             default:
