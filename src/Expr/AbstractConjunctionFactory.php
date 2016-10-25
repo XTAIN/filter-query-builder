@@ -46,7 +46,7 @@ abstract class AbstractConjunctionFactory implements ConjunctionFactoryInterface
     ) {
         foreach ($this->getClasses() as $class) {
             if (call_user_func(array($class, 'supports'), $queryCondition)) {
-                return $class($builder);
+                return new $class($builder);
             }
         }
 

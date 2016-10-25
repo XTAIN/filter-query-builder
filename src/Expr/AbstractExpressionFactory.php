@@ -49,7 +49,7 @@ abstract class AbstractExpressionFactory implements ExpressionFactoryInterface
     ) {
         foreach ($this->getClasses() as $class) {
             if (call_user_func(array($class, 'supports'), $rule)) {
-                return $class($builder);
+                return new $class($builder, $rule);
             }
         }
 
