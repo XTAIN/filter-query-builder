@@ -26,31 +26,33 @@ class LikeExpression extends AbstractExpression implements ExpressionInterface
             $expr = $this->builder->getQueryBuilder()->expr()->not($expr);
         }
 
-        $value = $this->rule->getValue()->getValue();
+        $pattern = $value = $this->rule->getValue()->getValue();
 
-        $q = '';
-        foreach (str_split($value) as $char) {
-            $lower = strtolower($char);
-            $upper = strtoupper($char);
-            $q .= '['.$lower.$upper.']';
-        }
+        if ($this->rule->getOperator() != 'like' && $this->rule->getOperator() != 'not_like') {
+            $q = '';
+            foreach (str_split($value) as $char) {
+                $lower = strtolower($char);
+                $upper = strtoupper($char);
+                $q .= '['.$lower.$upper.']';
+            }
 
-        $value = $q;
+            $value = $q;
+            $pattern = $value;
 
-        $pattern = $value;
-        switch ($this->rule->getOperator()) {
-            case 'contains':
-            case 'not_contains':
-                $pattern = '%' . $value . '%';
-                break;
-            case 'ends_with':
-            case 'not_ends_with':
-                $pattern = '%' . $value;
-                break;
-            case 'begins_with':
-            case 'not_begins_with':
-                $pattern = $value . '%';
-                break;
+            switch ($this->rule->getOperator()) {
+                case 'contains':
+                case 'not_contains':
+                    $pattern = '%' . $value . '%';
+                    break;
+                case 'ends_with':
+                case 'not_ends_with':
+                    $pattern = '%' . $value;
+                    break;
+                case 'begins_with':
+                case 'not_begins_with':
+                    $pattern = $value . '%';
+                    break;
+            }
         }
 
         $this->builder->getQueryBuilder()->setParameter(
@@ -70,6 +72,7 @@ class LikeExpression extends AbstractExpression implements ExpressionInterface
     public static function supports(RuleInterface $rule)
     {
         return
+            $rule->getOperator() == 'like' || $rule->getOperator() == 'not_like' ||
             $rule->getOperator() == 'contains' || $rule->getOperator() == 'not_contains' ||
             $rule->getOperator() == 'ends_with' || $rule->getOperator() == 'not_ends_with' ||
             $rule->getOperator() == 'begins_with' || $rule->getOperator() == 'not_begins_with';
