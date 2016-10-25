@@ -13,7 +13,9 @@ class DefaultExpressionFactory extends AbstractExpressionFactory
             EqualExpression::class,
             LessGreaterExpression::class,
             NullExpression::class,
-            BetweenExpression::class
+            BetweenExpression::class,
+            EmptyExpression::class,
+            LikeExpression::class
         );
     }
 }
