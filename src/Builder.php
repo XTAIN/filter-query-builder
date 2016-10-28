@@ -149,7 +149,7 @@ class Builder implements BuilderInterface
         throw new UnsupportedExpressionException(
             sprintf(
                 'Cannot find expression supporting %s',
-                $rule
+                $rule->getOperator()
             )
         );
     }
