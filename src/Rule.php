@@ -7,12 +7,12 @@ class Rule implements RuleInterface
     /**
      * @var string
      */
-    protected $condition;
+    protected $condition = 'AND';
 
     /**
      * @var RuleInterface[]
      */
-    protected $rules;
+    protected $rules = [];
 
     /**
      * @var string
