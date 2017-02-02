@@ -43,25 +43,32 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param RuleInterface $rule
+     * @param QueryInterface $query
      *
      * @return void
      */
-    public function apply(RuleInterface $rule)
+    public function apply(QueryInterface $query)
     {
         // This can happen if the querybuilder had no rules...
-        if (!$this->isNested($rule)) {
+        if (!is_array($query->getRules()) || count($query->getRules()) == 0) {
             return null;
         }
 
         $condition = $this->loopThroughRules(
-            $rule->getRules(),
-            $rule->getCondition()
+            $query->getRules(),
+            $query->getCondition()
         );
 
         $this->builder->andWhere(
             $condition->getQueryExpression()
         );
+
+        foreach ($query->getOrder() as $order) {
+            $this->builder->addOrderBy(
+                $order->getField(),
+                $order->getDirection()
+            );
+        }
     }
 
     /**

@@ -11,7 +11,7 @@ interface BuilderInterface
      *
      * @return void
      */
-    public function apply(RuleInterface $rule);
+    public function apply(QueryInterface $rule);
 
     /**
      * @return QueryBuilder

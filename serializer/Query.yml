@@ -1,0 +1,12 @@
+XTAIN\FilterQueryBuilder\Query:
+    xml_root_name: query
+    properties:
+        id:
+            type: string
+            xml_attribute: true
+        order:
+            type: array<XTAIN\FilterQueryBuilder\Query\Order>
+        rules:
+            type: array<XTAIN\FilterQueryBuilder\Rule>
+        condition:
+            type: string

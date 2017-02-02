@@ -1,0 +1,7 @@
+XTAIN\FilterQueryBuilder\Query\Order:
+    xml_root_name: order
+    properties:
+        field:
+            type: string
+        direction:
+            type: string

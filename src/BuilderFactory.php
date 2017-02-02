@@ -2,7 +2,6 @@
 
 namespace XTAIN\FilterQueryBuilder;
 
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use XTAIN\FilterQueryBuilder\Expr\ConjunctionFactoryInterface;
 use XTAIN\FilterQueryBuilder\Expr\ExpressionFactoryInterface;
