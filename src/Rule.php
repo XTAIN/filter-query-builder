@@ -12,7 +12,7 @@ class Rule implements RuleInterface
     /**
      * @var RuleInterface[]
      */
-    protected $rules = [];
+    protected $rules;
 
     /**
      * @var string

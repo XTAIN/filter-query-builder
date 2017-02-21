@@ -2,7 +2,7 @@
 
 namespace XTAIN\FilterQueryBuilder;
 
-use XTAIN\FilterQueryBuilder\Rule\Query\Order;
+use XTAIN\FilterQueryBuilder\Query\Order;
 
 class Query implements QueryInterface
 {
@@ -54,7 +54,7 @@ class Query implements QueryInterface
     }
 
     /**
-     * @return Rule\Query\Order[]
+     * @return Order[]
      */
     public function getOrder()
     {
@@ -62,7 +62,7 @@ class Query implements QueryInterface
     }
 
     /**
-     * @param Rule\Query\Order[] $order
+     * @param Order[] $order
      */
     public function setOrder($order)
     {
