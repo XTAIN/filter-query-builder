@@ -50,18 +50,16 @@ class Builder implements BuilderInterface
     public function apply(QueryInterface $query)
     {
         // This can happen if the querybuilder had no rules...
-        if (!is_array($query->getRules()) || count($query->getRules()) == 0) {
-            return null;
+        if (is_array($query->getRules()) && count($query->getRules()) > 0) {
+            $condition = $this->loopThroughRules(
+                $query->getRules(),
+                $query->getCondition()
+            );
+
+            $this->builder->andWhere(
+                $condition->getQueryExpression()
+            );
         }
-
-        $condition = $this->loopThroughRules(
-            $query->getRules(),
-            $query->getCondition()
-        );
-
-        $this->builder->andWhere(
-            $condition->getQueryExpression()
-        );
 
         foreach ($query->getOrder() as $order) {
             $this->builder->addOrderBy(
