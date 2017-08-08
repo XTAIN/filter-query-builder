@@ -1,0 +1,5 @@
+XTAIN\FilterQueryBuilder\Configuration:
+    xml_root_name: configuration
+    properties:
+        filters:
+            type: array<XTAIN\FilterQueryBuilder\Configuration\Filter>

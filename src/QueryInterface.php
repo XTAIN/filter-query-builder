@@ -25,12 +25,12 @@ interface QueryInterface
     public function setRules($rules);
 
     /**
-     * @return Rule\Query\Order[]
+     * @return Query\Order[]
      */
     public function getOrder();
 
     /**
-     * @param Rule\Query\Order[] $order
+     * @param Query\Order[] $order
      */
     public function setOrder($order);
 }

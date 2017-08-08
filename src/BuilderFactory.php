@@ -19,17 +19,25 @@ class BuilderFactory implements BuilderFactoryInterface
     protected $conjunctions;
 
     /**
+     * @var FilterCollector
+     */
+    protected $filterCollector;
+
+    /**
      * Builder constructor.
      *
-     * @param array $expressions
-     * @param array $conjunctions
+     * @param array           $expressions
+     * @param array           $conjunctions
+     * @param FilterCollector $filterCollector
      */
     public function __construct(
         array $expressions,
-        array $conjunctions
+        array $conjunctions,
+        FilterCollector $filterCollector
     ) {
         $this->expressions = $expressions;
         $this->conjunctions = $conjunctions;
+        $this->filterCollector = $filterCollector;
     }
 
     /**
@@ -42,7 +50,8 @@ class BuilderFactory implements BuilderFactoryInterface
         return new Builder(
             $queryBuilder,
             $this->expressions,
-            $this->conjunctions
+            $this->conjunctions,
+            $this->filterCollector->getConfiguration()
         );
     }
 }
