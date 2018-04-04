@@ -103,7 +103,9 @@ class Builder implements BuilderInterface
                     case Filter::ORDER_MAP_ALPHANUM:
                         asort($values);
                     case Filter::ORDER_MAP_FIXED:
-                        $field = $this->buildOrderByCase($field, $configuration, $values);
+                        if (count($values) > 0) {
+                            $field = $this->buildOrderByCase($field, $configuration, $values);
+                        }
                         break;
                 }
             }
